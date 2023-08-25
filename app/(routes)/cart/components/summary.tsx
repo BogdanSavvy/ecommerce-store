@@ -16,7 +16,7 @@ const Summary = () => {
 
   useEffect(() => {
     if (searchParams.get("success")) {
-      toast.success("Payment complited.");
+      toast.success("Payment completed.");
       removeAll();
     }
 
@@ -29,10 +29,12 @@ const Summary = () => {
     return total + Number(item.price);
   }, 0);
 
-  const onCheckout = () => async () => {
+  const onCheckout = async () => {
     const response = await axios.post(
       `${process.env.NEXT_PUBLIC_API_URL}/checkout`,
-      { productId: items.map((item) => item.id) },
+      {
+        productIds: items.map((item) => item.id),
+      },
     );
 
     window.location = response.data.url;
@@ -43,13 +45,11 @@ const Summary = () => {
       <h2 className="text-lg font-medium text-gray-900">Order Summary</h2>
       <div className="mt-6 space-y-4">
         <div className="flex items-center justify-between border-t border-gray-200 pt-4">
-          <div className="text-base font-medium text-gray-900">
-            Order total
-          </div>
+          <div className="text-base font-medium text-gray-900">Order total</div>
           <Currency value={totalPrice} />
         </div>
       </div>
-      <Button onClick={onCheckout} className="mt-6 w-full">
+      <Button disabled={items.length === 0} onClick={onCheckout} className="mt-6 w-full">
         Checkout
       </Button>
     </div>
