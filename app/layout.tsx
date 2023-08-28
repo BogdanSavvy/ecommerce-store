@@ -25,9 +25,11 @@ export default function RootLayout({
       <body className={font.className}>
         <ModalProvider />
         <ToastProvider />
-        <Navbar />
-        {children}
-        <Footer />
+        <div className="flex flex-col">
+          <Navbar />
+          <div className="flex-auto">{children}</div>
+          <Footer />
+        </div>
       </body>
     </html>
   );
